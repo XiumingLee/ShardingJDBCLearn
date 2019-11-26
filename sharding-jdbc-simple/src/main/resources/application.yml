@@ -1,0 +1,31 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  shardingsphere:
+    datasource:  ## 数据源相关配置
+      names: m1
+      m1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localserver:3306/order_db?useUnicode=true
+        username: root
+        password: 123456
+    sharding:  ## 分片相关
+      tables:
+        t_order:  ## 表名
+          actualDataNodes: m1.t_order_$->{1..2} # 指定t_order表的数据分布情况，配置数据节点
+          tableStrategy:
+            inline:
+              shardingColumn: order_id # 分表的字段
+              algorithmExpression: t_order_$->{order_id % 2 + 1} # 策略
+          keyGenerator: # 主键生成策略
+            type: SNOWFLAKE # 雪花算法
+            column: order_id # 主键的字段名称
+    props:
+      sql:
+        show: true
+logging:
+  level:
+    root: info
+    com.itheima.dbsharding: debug
+    druid.sql: debug
