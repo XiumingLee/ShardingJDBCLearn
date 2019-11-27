@@ -23,7 +23,10 @@ public class ShardingJdbcSimpleApplicationTests {
 	@Test
 	public void insertOrder() {
 		for(int i = 1; i < 10; i++){
-			orderDao.insertOrder(new BigDecimal(i),1L,"SUCCESS");
+			orderDao.insertOrder(new BigDecimal(i * 5),1L,"WAIT_PAY");
+		}
+		for(int i = 1; i < 10; i++){
+			orderDao.insertOrder(new BigDecimal(i * 5),2L,"WAIT_PAY");
 		}
 	}
 
@@ -31,12 +34,19 @@ public class ShardingJdbcSimpleApplicationTests {
 	@Test
 	public void selectOrderByIds() {
 		List<Long> ids = new ArrayList<>();
-		ids.add(406087215895019521L);
-		ids.add(406087217371414528L);
-		ids.add(406087217614684161L);
-		ids.add(406087216465444864L);
+		ids.add(406369478075482112L);
 
 		List<Map> maps = orderDao.selectOrderByIds(ids);
+		System.out.println(maps);
+	}
+
+	@Test
+	public void selectOrderByUidAndIds() {
+		List<Long> ids = new ArrayList<>();
+		ids.add(406370267212808192L);
+		Long userId = 2L;
+
+		List<Map> maps = orderDao.selectOrderByUidAndIds(userId,ids);
 		System.out.println(maps);
 	}
 

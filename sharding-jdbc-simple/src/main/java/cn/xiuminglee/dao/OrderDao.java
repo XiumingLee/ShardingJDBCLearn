@@ -42,4 +42,23 @@ public interface OrderDao {
             " </foreach>" +
             "</script>")
     List<Map> selectOrderByIds(@Param("orderIds") List<Long> orderIds);
+
+
+    /**
+     * 根据用户id和id列表查询订单
+     * @param userId 用户id
+     * @param orderIds 订单ids
+     * @return
+     */
+    @Select("<script>" +
+            "select" +
+            " * " +
+            " from t_order t " +
+            " where t.order_id in " +
+            " <foreach collection='orderIds' open='(' separator=',' close=')' item='id'>" +
+            " #{id} " +
+            " </foreach>" +
+            " and user_id = #{userId} " +
+            "</script>")
+    List<Map> selectOrderByUidAndIds(@Param("userId") Long userId,@Param("orderIds") List<Long> orderIds);
 }

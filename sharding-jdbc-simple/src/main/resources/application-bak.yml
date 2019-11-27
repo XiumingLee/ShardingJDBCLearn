@@ -14,7 +14,7 @@ spring:
       tables:
         t_order:  ## 表名
           actualDataNodes: m1.t_order_$->{1..2} # 指定t_order表的数据分布情况，配置数据节点
-          tableStrategy:
+          tableStrategy: # 分表策略
             inline:
               shardingColumn: order_id # 分表的字段
               algorithmExpression: t_order_$->{order_id % 2 + 1} # 策略
