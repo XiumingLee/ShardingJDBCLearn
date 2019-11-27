@@ -1,5 +1,6 @@
 package cn.xiuminglee;
 
+import cn.xiuminglee.dao.DictDao;
 import cn.xiuminglee.dao.OrderDao;
 import cn.xiuminglee.dao.UserDao;
 import org.junit.Test;
@@ -19,9 +20,10 @@ public class ShardingJdbcSimpleApplicationTests {
 
 	@Autowired
 	private OrderDao orderDao;
-
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private DictDao dictDao;
 
 	/** 新增订单 */
 	@Test
@@ -70,6 +72,27 @@ public class ShardingJdbcSimpleApplicationTests {
 		userIds.add(2L);
 		List<Map> users = userDao.selectUserByIds(userIds);
 		System.out.println(users);
+	}
+
+	@Test
+	public void testSelectUserInfobyIds(){
+		List<Long> userIds = new ArrayList<>();
+		userIds.add(1L);
+		userIds.add(2L);
+		List<Map> users = userDao.selectUserInfobyIds(userIds);
+		System.out.println(users);
+	}
+
+	/// 以下是公共表  字典表的测试
+	@Test
+	public void testInsertDict(){
+		dictDao.insertDict(12L,"user_type","2","超级管理员");
+		dictDao.insertDict(13L,"user_type","3","二级管理员");
+	}
+	@Test
+	public void testDeleteDict(){
+		dictDao.deleteDict(3L);
+		dictDao.deleteDict(4L);
 	}
 
 }
