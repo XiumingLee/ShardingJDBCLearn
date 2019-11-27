@@ -1,6 +1,7 @@
 package cn.xiuminglee;
 
 import cn.xiuminglee.dao.OrderDao;
+import cn.xiuminglee.dao.UserDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class ShardingJdbcSimpleApplicationTests {
 
 	@Autowired
 	private OrderDao orderDao;
+
+	@Autowired
+	private UserDao userDao;
 
 	/** 新增订单 */
 	@Test
@@ -48,6 +52,24 @@ public class ShardingJdbcSimpleApplicationTests {
 
 		List<Map> maps = orderDao.selectOrderByUidAndIds(userId,ids);
 		System.out.println(maps);
+	}
+
+	/// 以下是用户表测试
+	@Test
+	public void testInsertUser(){
+		for (int i = 10 ; i<14; i++){
+			Long id = i + 1L;
+			userDao.insertUser(id,"姓名"+ id );
+		}
+
+	}
+	@Test
+	public void testSelectUserByIds(){
+		List<Long> userIds = new ArrayList<>();
+		userIds.add(1L);
+		userIds.add(2L);
+		List<Map> users = userDao.selectUserByIds(userIds);
+		System.out.println(users);
 	}
 
 }
