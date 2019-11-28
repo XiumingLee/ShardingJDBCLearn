@@ -68,8 +68,8 @@ public class ShardingJdbcSimpleApplicationTests {
 	@Test
 	public void testSelectUserByIds(){
 		List<Long> userIds = new ArrayList<>();
-		userIds.add(1L);
-		userIds.add(2L);
+		userIds.add(11L);
+		userIds.add(12L);
 		List<Map> users = userDao.selectUserByIds(userIds);
 		System.out.println(users);
 	}
